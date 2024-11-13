@@ -1,0 +1,229 @@
+﻿@using Microsoft.AspNetCore.Http @using CF_HOATUOIBASANH.FormatHelper @{
+	var username = Context.Session.GetString("CustomerLastName");
+} <div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-4">
+			<div class="card card-transparent card-block card-stretch card-height border-none">
+				<div class="card-body p-0 mt-lg-2 mt-0">
+					<h3 class="mb-3">Xin chào @username</h3>
+					<p class="mb-0 mr-4">"Chào mừng bạn đến với trang quản trị! Đây là nơi bạn có thể kiểm soát và quản lý mọi hoạt động trên trang web của Hoa Tươi Ba Sanh</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-8">
+			<div class="row">
+				<div class="col-lg-4 col-md-4">
+					<div class="card card-block card-stretch card-height">
+						<div class="card-body">
+							<div class="d-flex align-items-center mb-4 card-total-sale">
+								<div class="icon iq-icon-box-2 bg-info-light">
+									<img src="~/Admin/assets/images/product/1.png" class="img-fluid" alt="image">
+								</div>
+								<div>
+									<p class="mb-2">Tổng số khách hàng</p>
+									<h4>@ViewBag.CustomerCount KH</h4>
+								</div>
+							</div>
+							<div class="iq-progress-bar mt-2">
+								<span class="bg-info iq-progress progress-1" data-percent="100" style="transition: width 2s ease 0s; width: 100%;"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4">
+					<div class="card card-block card-stretch card-height">
+						<div class="card-body">
+							<div class="d-flex align-items-center mb-4 card-total-sale">
+								<div class="icon iq-icon-box-2 bg-danger-light">
+									<img src="~/Admin/assets/images/product/2.png" class="img-fluid" alt="image">
+								</div>
+								<div>
+									<p class="mb-2">Tổng doanh thu</p>
+									<h4>@FormatHelper.FormatPriceVND((double)@ViewBag.TotalAmount) đ</h4>
+								</div>
+							</div>
+							<div class="iq-progress-bar mt-2">
+								<span class="bg-danger iq-progress progress-1" data-percent="100" style="transition: width 2s ease 0s; width: 100%;"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4">
+					<div class="card card-block card-stretch card-height">
+						<div class="card-body">
+							<div class="d-flex align-items-center mb-4 card-total-sale">
+								<div class="icon iq-icon-box-2 bg-success-light">
+									<img src="~/Admin/assets/images/product/3.png" class="img-fluid" alt="image">
+								</div>
+								<div>
+									<p class="mb-2">Tổng số đơn hàng đã bán</p>
+									<h4>@ViewBag.TotalOrders đơn</h4>
+								</div>
+							</div>
+							<div class="iq-progress-bar mt-2">
+								<span class="bg-success iq-progress progress-1" data-percent="100" style="transition: width 2s ease 0s; width: 100%;"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div class="col-lg-8">
+            <div class="card card-block card-stretch card-height">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">Top sản phẩm</h4>
+                    </div>
+         
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled row top-product mb-0 slick-initialized slick-slider">
+                        @foreach (var product in ViewBag.TopProductsWithImages)
+						{
+                            <li class="col-lg-3 slick-slide slick-cloned">
+                                <div class="card card-block card-stretch card-height mb-0">
+                                    <div class="card-body d-flex flex-column align-items-center">
+                                        <div>
+                                            <img src="@product.ImageUrl" alt="image" width="130" height="130">
+                                        </div>
+                                        <div class="style-text text-left mt-3">
+                                            <h5 class="mb-1">@product.Name</h5>
+                                            <p class="mb-0">@product.TotalQuantity Sản phẩm</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+						</ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card card-transparent card-block card-stretch mb-4">
+                <div class="card-header d-flex align-items-center justify-content-between p-0">
+                    <div class="header-title">
+                        <h4 class="card-title mb-0">Sản phẩm doanh thu cao</h4>
+                    </div>
+                    <div class="card-header-toolbar d-flex align-items-center">
+                        <div><a href="#" class="btn btn-primary view-btn font-size-14">View All</a></div>
+                    </div>
+                </div>
+            </div>
+			@foreach (var product in ViewBag.TopRevenueProductsWithImages)
+			{
+				<div class="card card-block card-stretch card-height-helf">
+					<div class="card-body card-item-right">
+						<div class="d-flex align-items-top">
+							<div class="bg-warning-light rounded">
+								<img src="@product.ImageUrl" class="style-img img-fluid m-auto" alt="image" width="130" height="130">
+							</div>
+							<div class="style-text text-left">
+								<h5 class="mb-2">@product.Name</h5>
+								<p class="mb-2">Số lượt bán: @product.TotalQuantity</p>
+								<p class="mb-0">Tổng doanh thu: @FormatHelper.FormatPriceVND((double)product.TotalRevenue) đ</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+		<div class="col-lg-12">
+			<div class="card card-block card-stretch card-height">
+				<div class="card-header d-flex align-items-center justify-content-between">
+					<div class="header-title">
+						<h4 class="card-title">Biểu đồ đơn hàng trong tuần</h4>
+					</div>
+					<div class="card-header-toolbar d-flex align-items-center">
+						
+					</div>
+				</div>
+				<div class="card-body">
+					<div id="layout1-chart-2" style="min-height: 360px;"></div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+</div>
+
+
+	</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+@if (ViewBag.OrdersByDayOfWeek != null)
+{
+	<script>
+		if (jQuery('#layout1-chart-2').length) {
+			am4core.ready(function () {
+
+				// Themes begin
+				am4core.useTheme(am4themes_animated);
+				// Themes end
+
+				// Create chart instance
+				var chart = am4core.create("layout1-chart-2", am4charts.XYChart);
+				chart.colors.list = [
+					am4core.color("#32BDEA"),
+					am4core.color("#32BDEA"),
+					am4core.color("#32BDEA"),
+					am4core.color("#32BDEA"),
+					am4core.color("#32BDEA"),
+					am4core.color("#32BDEA"),
+					am4core.color("#32BDEA"),
+					am4core.color("#32BDEA"),
+					am4core.color("#32BDEA")
+				];
+				chart.scrollbarX = new am4core.Scrollbar();
+
+				// Add data from ViewBag
+				chart.data = @Html.Raw(Json.Serialize(ViewBag.OrdersByDayOfWeek));
+
+				// Create axes
+				var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+				categoryAxis.dataFields.category = "day";
+				categoryAxis.renderer.grid.template.location = 0;
+				categoryAxis.renderer.minGridDistance = 60;
+				categoryAxis.tooltip.disabled = true;
+
+				var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+				valueAxis.renderer.minWidth = 50;
+				valueAxis.min = 0;
+				valueAxis.cursorTooltipEnabled = false;
+
+				// Create series
+				var series = chart.series.push(new am4charts.ColumnSeries());
+				series.sequencedInterpolation = true;
+				series.dataFields.valueY = "sell";
+				series.dataFields.categoryX = "day";
+				series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+				series.columns.template.strokeWidth = 0;
+
+				series.tooltip.pointerOrientation = "vertical";
+
+				series.columns.template.column.cornerRadiusTopLeft = 10;
+				series.columns.template.column.cornerRadiusTopRight = 10;
+				series.columns.template.column.fillOpacity = 0.8;
+
+				// on hover, make corner radiuses bigger
+				var hoverState = series.columns.template.column.states.create("hover");
+				hoverState.properties.cornerRadiusTopLeft = 0;
+				hoverState.properties.cornerRadiusTopRight = 0;
+				hoverState.properties.fillOpacity = 1;
+
+				series.columns.template.adapter.add("fill", function (fill, target) {
+					return chart.colors.getIndex(target.dataItem.index);
+				})
+
+				// Cursor
+				chart.cursor = new am4charts.XYCursor();
+				chart.cursor.behavior = "panX";
+
+			}); // end am4core.ready()
+		}
+	</script>
+}
