@@ -1,0 +1,60 @@
+﻿@{
+    bool success = ViewBag.PaymentResponse.Success ?? false;
+    string orderInfo = ViewBag.PaymentResponse.OrderDescription;
+    string[] parts = orderInfo.Split('|');
+    string deliveryMethod = parts[0];
+    string shipAddress = parts[1];
+    string note = parts.Length > 3 ? parts[3] : null;
+    string nameDescriptionAmount = parts[6];
+    string[] nameDescAmountParts = nameDescriptionAmount.Split(' ');
+    string amount = nameDescAmountParts[^1];
+    decimal totalDecimal = decimal.Parse(amount);
+}
+
+@if (success || ViewBag.PaymentResponse.PaymentId == 0)
+{
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="message-box _success">
+                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                    <h2>Thanh toán của bạn đã thành công</h2>
+                    <p>Cảm ơn bạn đã thanh toán. Chúng tôi sẽ liên hệ với bạn sớm để cung cấp thông tin chi tiết.</p>
+
+                    <!-- Hiển thị thông tin thanh toán -->
+                    <br>
+                    <h4>Chi tiết thanh toán</h4>
+                    <br >
+                    <ul class="payment-details">
+                        <li><strong>Mã đơn hàng:</strong> @ViewBag.OrderID</li>
+                        <li><strong>Phương thức thanh toán:</strong> @ViewBag.PaymentResponse.PaymentMethod</li>
+                        <li><strong>Phương thức vận chuyển:</strong> @deliveryMethod</li>
+                        <li><strong>Địa chỉ giao hàng:</strong> @shipAddress</li>
+                        <li><strong>Thông tin đơn hàng:</strong> @nameDescriptionAmount</li>
+                        @if (note != "")
+                        {
+                            <li><strong>Ghi chú:</strong> @note</li>
+                        }
+                        <div style="text-align: center;">
+                            <a href="/Home" class="primary-btn">Quay về trang chủ</a>
+                        </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="message-box _success _failed">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                    <h2>Thanh toán của bạn đã thất bại</h2>
+                    <p>Vui lòng thử lại sau.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
